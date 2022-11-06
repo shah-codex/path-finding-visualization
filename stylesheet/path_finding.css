@@ -1,0 +1,73 @@
+.container {
+    margin: 4rem;
+}
+.dynamic-placement {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: row;
+}
+.grid-size-selector {
+    margin: 0 auto;
+    padding: 1rem 2rem;
+    border-radius: 0.2rem;
+    border: 0.15em solid black;
+    width: 90%;
+    display: block;
+    transition: all 0.3s;
+    font-size: large;
+}
+.spacer {
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+.cell-style {
+    padding: 2rem;
+    background-color: #D2C0C0;
+}
+.start-button-style {
+    font-size: large;
+    font-weight: 800;
+    color: blue;
+    margin-top: 4rem;
+    padding: 1rem 2rem;
+    border-radius: 0.3rem;
+    border: 0.15em solid blue;
+    width:50%;
+    display: block;
+    background-color: transparent;
+}
+.start-button-style:hover {
+    background-color: #2B0BFD0F;
+
+}
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+.algo-select-item {
+    overflow-y: auto;
+    line-height: 2rem;
+    margin-top: 2rem;
+    width: 50%;
+    border: 0.25em solid black;
+}
+.algo-select-item > option {
+    font-size: large;
+    font-weight: 800;
+    padding: 0.5rem 2rem;
+    width: 90%;
+}
+.algo-select-item > option:hover {
+    background-color: #2B0BFD0F;
+}
+.node-identifier {
+    padding: 1.5rem 2rem;
+    margin-top: 1rem;
+    width: 1rem;
+}
+.grid-layout {
+    max-width: 80%;
+    max-height: 42.5em;
+    overflow-y: auto;
+    overflow-x: auto;
+}

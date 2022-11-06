@@ -1,0 +1,154 @@
+<html>
+    <head>
+        <title>Shortest Path</title>
+
+<link rel="stylesheet" href="./stylesheet/path_finding.css"> </style>
+
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="./scripts/astar.js"></script>
+<script type="text/javascript" src="./classes/priority_queue.js"></script>
+<script type="text/javascript" src="./classes/node.js"></script>
+<script type="text/javascript" src="./scripts/dijkstra.js"></script>
+<script type="text/javascript" src="./scripts/utils.js"></script>
+
+<script>
+    colors = {
+        yellow: "#D8DB53",
+        gray: "#D2C0C0",
+        red: "#FF0017",
+        blue: "#0035FF",
+        purple: "#5A528A",
+        light_purple: "#5A528A0F",
+        green: "#5DC000",
+        dark_yello: "#E9D100",
+        black: "#000000"
+    }
+
+    let startNode = null;
+    let endNode = null;
+    let gridLayout = [];
+
+    $(document).ready(() => {
+        // Create the grid
+        const row = parseInt($("#set-height").val());
+        const col = parseInt($("#set-width").val());
+        createGrid(row, col);
+
+        // Attach an event listener on the textBox
+        $("#set-height").on('keyup', () => {
+            const row = parseInt($("#set-height").val());
+            const col = parseInt($("#set-width").val());
+            createGrid(row, col);
+        });
+
+        $("#set-width").on('keyup', () => {
+            const row = parseInt($("#set-height").val());
+            const col = parseInt($("#set-width").val());
+            createGrid(row, col);
+        });
+
+        $("#start-button").click(() => {
+            let path = null;
+            if (startNode && endNode) {
+                let algo = $("#algo-select").val();
+                switch (algo) {
+                    case "dijkstra":
+                        path = solveDijkstra(gridLayout, startNode, endNode);
+                        break;
+                    case "astar":
+                        path = solveAstar(gridLayout, startNode, endNode);
+                        break;
+                }
+                showPath(path);
+            } else {
+                alert("Start or End is not set\n\nDouble click any cell in grid to set Start Node.\nClick and Drag the cell to mark it as a Ending Node.");
+            }
+        });
+
+        $("#clear-button").click(() => {
+            const row = parseInt($("#set-height").val());
+            const col = parseInt($("#set-width").val());
+            createGrid(row, col);
+            $("#result-dictator")
+                .css('background-color', 'var(--class-item-bg)')
+                .html("");
+            startNode = null;
+            endNode = null;
+        });
+    });
+
+    const showPath = (path) => {
+        let solved = false;
+        if (path.at(path.length-1) === endNode) {
+            solved = true;
+        }
+
+        if (solved) {
+            let temp = path.pop();
+            while (temp) {
+                $("#" + temp.id).css('background-color', colors.yellow);
+                temp = temp.previous;
+            }
+            $("#result-dictator")
+                .html("Result: Possible Shortest Path is in <span style='color:" + colors.dark_yello + ";'> yellow </span> color")
+                .css('color', colors.green)
+        } else {
+            $("#result-dictator")
+                .text("Result: No Path Possible")
+                .css('color', colors.red);
+        }
+        $("#result-dictator")
+            .css('background-color', colors.light_purple);
+    }
+
+</script>
+    </head>
+
+    <body>
+        <div class="container dynamic-placement">
+            <div id="grid-layout" class="grid-layout">
+            </div>
+            <span class="spacer"></span>
+            <div>
+                <div class="dynamic-placement">
+                    <div>
+                        <label for="set-width" class="spacer" style="font-size: large; font-weight: 800">Width</label><br />
+                        <input type="number" class="grid-size-selector" id="set-width" value='10'/>
+                    </div>
+                    <div>
+                        <label for="set-height" class="spacer" style="font-size: large; font-weight: 800">Height</label><br />
+                        <input type="number" class="grid-size-selector" id="set-height" value='10'/>
+                    </div>
+                </div>
+
+                <div>
+                    <select class="algo-select-item spacer" id="algo-select" size="2" class="">
+                        <option selected id="dijkstra" value="dijkstra">Dijkstra</option>
+                        <option id="astar" value="astar">A*</option>
+                    </select>
+                </div>
+
+                <div class="dynamic-placement">
+                    <div class="node-identifier spacer" style="background-color: red;"> </div>
+                    <span style="margin-top: 1rem; font-size: large; font-weight: 700; align-self: center"> Start Node </span> 
+                </div>
+
+                <div class="dynamic-placement">
+                    <div class="node-identifier spacer" style="background-color: blue"> </div>
+                    <span style="margin-top: 1rem; font-size: large; font-weight: 700; align-self: center"> End Node </span> 
+                </div>
+
+                <div class="spacer">
+                    <h3 style="padding: 1rem" id="result-dictator"> </h3>
+                </div>
+
+                <div class="spacer dynamic-placement">
+                    <input class="start-button-style" id="start-button" type="button" value="Start" />
+                    <span class="spacer"></span>
+                    <span class="spacer"></span>
+                    <input class="start-button-style" id="clear-button" style="color: red; border-color: red;" id="start-button" type="button" value="Clear" />
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
