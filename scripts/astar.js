@@ -40,7 +40,7 @@ function computeHeuristics(grid, end) {
         for (let j = 0; j < grid[i].length; j++) {
             let cell = grid[i][j];
             if (cell.weight !== Infinity && cell !== end) {
-                cell.heuristicDistance = euclideanDistance(cell, end);
+                cell.heuristicDistance = manhattenDistance(cell, end);
             }
         }
     }
