@@ -32,29 +32,29 @@ const createGrid = (row, col) => {
                     rowElement[j].weight = Infinity;
                 }
             });
-            $("#" + rowElement[j].id).on('dblclick', () => {
+            $("#" + rowElement[j].id).on('dblclick', (event) => {
                 // Updating the start node if previously selected.
-                if (startNode === null) {
-                    startNode = rowElement[j];
-                    $("#" + startNode.id).css("background-color", colors.red);
+                if (event.ctrlKey) {
+                    if (endNode === null) {
+                        endNode = rowElement[j];
+                        $("#" + endNode.id).css("background-color", colors.blue);
+                    } else {
+                        $("#" + endNode.id).css("background-color",  colors.gray);
+                        endNode = rowElement[j];
+                        $("#" + endNode.id).css("background-color", colors.blue);
+                    }
+                    endNode.weight = 1;
                 } else {
-                    $("#" + startNode.id).css("background-color",  colors.gray);
-                    startNode = rowElement[j];
-                    $("#" + startNode.id).css("background-color", colors.red);
-                }
-                startNode.weight = 1;
-            });
-            $("#" + rowElement[j].id).on('drag', () => {
-                // Updating the end node if previously selected.
-                if (endNode === null) {
-                    endNode = rowElement[j];
-                    $("#" + endNode.id).css("background-color", colors.blue);
-                } else {
-                    $("#" + endNode.id).css("background-color",  colors.gray);
-                    endNode = rowElement[j];
-                    $("#" + endNode.id).css("background-color", colors.blue);
-                }
-                endNode.weight = 1;
+                    if (startNode === null) {
+                        startNode = rowElement[j];
+                        $("#" + startNode.id).css("background-color", colors.red);
+                    } else {
+                        $("#" + startNode.id).css("background-color",  colors.gray);
+                        startNode = rowElement[j];
+                        $("#" + startNode.id).css("background-color", colors.red);
+                    }
+                    startNode.weight = 1;
+                } 
             });
         }
         gridLayout.push(rowElement);
