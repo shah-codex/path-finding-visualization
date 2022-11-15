@@ -17,19 +17,29 @@ const createGrid = (row, col) => {
         for (let j = 0; j < col; j++) {
             const node = new Node(i + "-" + j, null);
             rowElement.push(node);
-            $("#" + rowElement[j].id).on('click', () => {
+            $("#" + rowElement[j].id).on('click', (event) => {
                 if (startNode && rowElement[j] === startNode) {
                     startNode = null;
                 }
                 if (endNode && rowElement[j] === endNode) {
                     endNode = null;
                 }
-                if (rowElement[j].weight == Infinity) {
+
+                if (rowElement[j].weight != 1) {
                     $("#" + rowElement[j].id).css("background-color", colors.gray);
                     rowElement[j].weight = 1;
+                }
+
+                else if (event.ctrlKey) {
+                    if (rowElement[j].weight != Infinity) {
+                        $("#" + rowElement[j].id).css("background-color", colors.green_dark);
+                        rowElement[j].weight = 5;
+                    }
                 } else {
-                    $("#" + rowElement[j].id).css("background-color", colors.black);
-                    rowElement[j].weight = Infinity;
+                    if (rowElement[j].weight != Infinity) {
+                        $("#" + rowElement[j].id).css("background-color", colors.black);
+                        rowElement[j].weight = Infinity;
+                    }
                 }
             });
             $("#" + rowElement[j].id).on('dblclick', (event) => {
@@ -61,4 +71,17 @@ const createGrid = (row, col) => {
     }
 
     return [grid, startNode, endNode];
+}
+
+function removeWeights(row, col) {
+    for (let i = 0; i < row; i++) {
+        for (let j = 0; j < col; j++) {
+            let cell = gridLayout[i][j];
+            if (cell.weight == Infinity) {
+                continue;
+            }
+            cell.weight = 1;
+            $("#" + cell.id).css('background-color', colors.gray);
+        }
+    }
 }
